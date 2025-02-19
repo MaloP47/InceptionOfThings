@@ -1,36 +1,22 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-SERVICES = {
-  'server' => {
-	name: 'mpeuletS',
-    ip: '192.168.56.110',
-  },
-  'worker' => {
-	name: 'mpeuletSW'
-    ip: '192.168.56.111',
-  }
-}
+# # -*- mode: ruby -*-
+# # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-
-	config.vm.box = "alpine/alpine64"
-	config.vm.box_version = "3.7.0"
-	config.vm.provision "shell", path: "scripts/provision.sh"
-	config.vm.provider :virtualbox do |vb|
-		vb.memory = "1024"
-		vb.cpus = 1
-	end
-
-	config.vm.define server do |server|
-		server.vm.hostname = SERVICES['server'][:name]
-		server.vm.network "private_network", ip: SERVICES['Server'][:ip]
-	end
-
-	config.vm.define worker do |worker|
-		server.vm.hostname = SERVICES['worker'][:name]
-		server.vm.network "private_network", ip: SERVICES['worker'][:ip]
-	end
-
-end
+	config.vm.box = "generic/alpine318"
+	config.vm.box_version = "4.3.12"
   
+	config.vm.provider :virtualbox do |vb|
+	  vb.memory = 4096	
+	  vb.cpus = 4
+	end
+  
+	config.vm.define "mpeuletS" do |server|
+	  server.vm.hostname = "mpeuletS"
+	  server.vm.network "private_network", ip: "192.168.56.110"
+	end
+  
+	config.vm.define "mpeuletSW" do |server_worker|
+	  server_worker.vm.hostname = "mpeuletSW"
+	  server_worker.vm.network "private_network", ip: "192.168.56.111"
+	end
+  end
