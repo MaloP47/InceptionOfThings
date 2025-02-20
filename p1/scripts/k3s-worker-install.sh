@@ -11,5 +11,5 @@ TOKEN=$(cat /vagrant/token)
 NODE_IP=$(ifconfig eth1 | grep 'inet ' | awk '{print $2}')
 echo "Worker utilise l'IP : ${NODE_IP}"
 
-# Installer l'agent K3s en spécifiant l'IP du nœud et en joignant le master
+# Installer l'agent K3s en spécifiant l'IP du noeud et en joignant le master
 curl -sfL https://get.k3s.io | K3S_URL=https://$MASTER_IP:6443 K3S_TOKEN=$TOKEN INSTALL_K3S_EXEC="--node-ip=${NODE_IP}" sh -
