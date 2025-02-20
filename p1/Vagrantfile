@@ -2,21 +2,25 @@
 # # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-	config.vm.box = "generic/alpine318"
-	config.vm.box_version = "4.3.12"
-  
-	config.vm.provider :virtualbox do |vb|
-	  vb.memory = 4096	
-	  vb.cpus = 4
-	end
-  
+	config.vm.box = "hashicorp/bionic64"
+
 	config.vm.define "mpeuletS" do |server|
-	  server.vm.hostname = "mpeuletS"
-	  server.vm.network "private_network", ip: "192.168.56.110"
+		server.vm.hostname = "mpeuletS"
+		server.vm.network "private_network", ip: "192.168.56.110"
+		config.vm.provider :virtualbox do |vb|
+			vb.memory = 1024	
+			vb.cpus = 1
+		end
+		server.vm.provision "shell", path: "scripts/k3s-server-install.sh"
 	end
   
 	config.vm.define "mpeuletSW" do |server_worker|
-	  server_worker.vm.hostname = "mpeuletSW"
-	  server_worker.vm.network "private_network", ip: "192.168.56.111"
-	end
-  end
+		server_worker.vm.hostname = "mpeuletSW"
+		server_worker.vm.network "private_network", ip: "192.168.56.111"
+		config.vm.provider :virtualbox do |vb|
+			vb.memory = 1024	
+			vb.cpus = 1
+		end
+		server_worker.vm.provision "shell", path: "scripts/k3s-worker-install.sh", args: ["192.168.56.110"]
+  	end
+end
