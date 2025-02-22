@@ -32,31 +32,8 @@ if ! grep -q "export KUBECONFIG=" /home/vagrant/.profile; then
   echo "export KUBECONFIG=/home/vagrant/.kube/config" | sudo tee -a /home/vagrant/.profile
 fi
 
-# Attendre la création du fichier token du noeud
-echo "En attente de la création du fichier de token du noeud K3s..."
-for i in {1..30}; do
-  if [ -f "$TOKEN_FILE" ]; then
-    echo "Fichier de token trouvé."
-    break
-  fi
-  echo "En attente... ($i/30)"
-  sleep 2
-done
-
-# Lire le token
-TOKEN=$(sudo cat "$TOKEN_FILE")
-
-# Attendre que le dossier partagé /vagrant soit disponible
-echo "En attente du dossier partagé /vagrant..."
-for i in {1..30}; do
-  if [ -d /vagrant ]; then
-    echo "Dossier /vagrant disponible."
-    break
-  fi
-  echo "En attente... ($i/30)"
-  sleep 1
-done
-
-# Stocker le token pour les noeuds workers
-echo "Stockage du token dans /vagrant/token..."
-echo "$TOKEN" > /vagrant/token
+if ! grep -q "alias k=" /home/vagrant/.profile; then
+  echo "alias k='kubectl'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kg='kubectl get pods'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgw='kubectl get pods -o wide'" | sudo tee -a /home/vagrant/.profile
+fi
