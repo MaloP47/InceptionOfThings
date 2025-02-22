@@ -5,8 +5,8 @@
 NODE_IP=$(ifconfig eth1 | grep 'inet ' | awk '{print $2}')
 echo "Utilisation de l'IP du noeud : ${NODE_IP}"
 
-# Installer K3s en spécifiant l'IP du noeud
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=${NODE_IP}" sh -
+# Installer K3s en spécifiant l'IP du noeud et donner les droits aux autres users
+curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="--node-ip=${NODE_IP}" sh -
 
 CONFIG_FILE="/etc/rancher/k3s/k3s.yaml"
 TOKEN_FILE="/var/lib/rancher/k3s/server/node-token"
