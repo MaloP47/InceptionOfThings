@@ -32,6 +32,12 @@ if ! grep -q "export KUBECONFIG=" /home/vagrant/.profile; then
   echo "export KUBECONFIG=/home/vagrant/.kube/config" | sudo tee -a /home/vagrant/.profile
 fi
 
+if ! grep -q "alias k=" /home/vagrant/.profile; then
+  echo "alias k='kubectl'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgn='kubectl get nodes'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgnw='kubectl get nodes -o wide'" | sudo tee -a /home/vagrant/.profile
+fi
+
 # Attendre la création du fichier token du noeud
 echo "En attente de la création du fichier de token du noeud K3s..."
 for i in {1..30}; do

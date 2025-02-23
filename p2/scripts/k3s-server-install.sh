@@ -34,6 +34,6 @@ fi
 
 if ! grep -q "alias k=" /home/vagrant/.profile; then
   echo "alias k='kubectl'" | sudo tee -a /home/vagrant/.profile
-  echo "alias kg='kubectl get pods'" | sudo tee -a /home/vagrant/.profile
-  echo "alias kgw='kubectl get pods -o wide'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgn='kubectl get nodes'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgnw='kubectl get nodes -o wide'" | sudo tee -a /home/vagrant/.profile
 fi
