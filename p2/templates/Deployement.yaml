@@ -1,0 +1,28 @@
+apiVersion: apps/v1           # Obligatoire. Spécifie la version de l'API utilisée pour le Deployment.
+kind: Deployment              # Obligatoire. Indique le type de ressource (ici, un Deployment).
+metadata:                     
+  name: my-deployment         # Obligatoire. Nom unique du Deployment dans le namespace.
+  namespace: default          # Optionnel. Namespace dans lequel déployer (par défaut "default").
+  labels:                     # Optionnel. Étiquettes associées au Deployment pour faciliter l'organisation.
+    app: my-app
+spec:                         
+  replicas: 3                 # Optionnel. Nombre de réplicas (pod) désirés (la valeur par défaut est 1 si omise).
+  selector:                   # Obligatoire. Critère permettant de sélectionner les pods gérés par ce Deployment.
+    matchLabels:             
+      app: my-app             # Ce label doit correspondre aux labels définis dans le template du pod.
+  template:                   # Obligatoire. Modèle servant à créer les pods.
+    metadata:                 
+      labels:                 # Obligatoire. Labels du pod. Ils doivent correspondre au selector ci-dessus.
+        app: my-app
+      annotations:            # Optionnel. Annotations pour ajouter des métadonnées supplémentaires au pod.
+        description: "Template de pod minimal"
+    spec:                     # Obligatoire. Spécifie la configuration des pods (conteneurs, volumes, etc.).
+      containers:             # Obligatoire. Liste des containers à lancer dans le pod.
+      - name: my-container    # Obligatoire. Nom unique du container dans le pod.
+        image: my-image:latest # Obligatoire. Image du container (avec tag, ici "latest").
+        ports:                # Optionnel. Liste des ports que le container expose.
+        - containerPort: 80   # Exemple : port 80 exposé dans le container.
+        # D'autres champs optionnels peuvent être ajoutés ici, par exemple :
+        # env: (variables d'environnement)
+        # resources: (limites et requêtes de ressources)
+        # volumeMounts: (pour monter des volumes dans le container)

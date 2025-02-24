@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app3-ingress
+  namespace: default
+spec:
+  ingressClassName: "traefik"
+  defaultBackend:
+    service:
+      name: app-three
+      port:
+        number: 8081

@@ -36,4 +36,30 @@ if ! grep -q "alias k=" /home/vagrant/.profile; then
   echo "alias k='kubectl'" | sudo tee -a /home/vagrant/.profile
   echo "alias kgn='kubectl get nodes'" | sudo tee -a /home/vagrant/.profile
   echo "alias kgnw='kubectl get nodes -o wide'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kga='kubectl get all'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgia='kubectl get ingress -A'" | sudo tee -a /home/vagrant/.profile
 fi
+
+source /home/vagrant/.profile
+sleep 2
+
+kubectl apply -f /vagrant/confs/Deployments/app1-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app1-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app1-Ingress.yaml
+sleep 2
+
+kubectl apply -f /vagrant/confs/Deployments/app2-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app2-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app2-Ingress.yaml
+sleep 2
+
+kubectl apply -f /vagrant/confs/Deployments/app3-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app3-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app3-Ingress.yaml
+sleep 2

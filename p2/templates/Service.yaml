@@ -1,0 +1,16 @@
+apiVersion: v1               # Obligatoire : version de l'API utilisée (pour les services, c'est "v1")
+kind: Service                # Obligatoire : type de ressource, ici "Service"
+metadata:
+  name: mon-service         # Obligatoire : nom unique du service dans le namespace
+  namespace: default        # Optionnel : namespace où sera créé le service (par défaut "default")
+  labels:                   # Optionnel : étiquettes pour organiser et filtrer les ressources
+    app: mon-app
+spec:
+  selector:                 # Obligatoire : définit les labels que doivent avoir les pods ciblés par le service
+    app: mon-app
+  ports:                    # Obligatoire : liste des ports exposés par le service
+  - name: http             # Optionnel : nom symbolique du port, utile pour la lisibilité
+    protocol: TCP          # Optionnel : protocole utilisé (valeur par défaut : TCP)
+    port: 80               # Obligatoire : port d'accès du service à l'intérieur du cluster
+    targetPort: 8080       # Optionnel : port du pod vers lequel le trafic est redirigé (si omis, il prendra la valeur du champ "port")
+  type: ClusterIP           # Optionnel : définit le type de service (ClusterIP, NodePort, LoadBalancer, etc.) – par défaut "ClusterIP"

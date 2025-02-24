@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1           # Obligatoire : Version de l'API pour Ingress
+kind: Ingress                              # Obligatoire : Type de ressource
+metadata:
+  name: mon-ingress                        # Obligatoire : Nom unique de l'Ingress
+  namespace: default                       # Optionnel : Namespace dans lequel l'Ingress sera créé (défaut : default)
+spec:
+  defaultBackend:                          # Optionnel, mais recommandé pour définir un service par défaut
+    service:
+      name: app3-service                   # Obligatoire si defaultBackend est défini : nom du service à utiliser par défaut
+      port:
+        number: 80                         # Obligatoire : port du service cible
+  rules:                                   # Optionnel : Liste de règles de routage. Si aucune règle ne correspond, le defaultBackend est utilisé.
+  - host: app1.example.com                  # Optionnel : Nom de domaine pour la règle. Si omis, la règle s'applique à toutes les requêtes sur l'IP.
+    http:
+      paths:
+      - path: /                            # Obligatoire dans une règle HTTP : chemin d'URL à matcher
+        pathType: Prefix                   # Obligatoire : Type de correspondance ("Prefix", "Exact" ou "ImplementationSpecific")
+        backend:
+          service:
+            name: app1-service             # Obligatoire : Service ciblé pour cette règle
+            port:
+              number: 80                   # Obligatoire : Port du service cible
+  - host: app2.example.com                  # Autre règle pour une seconde application
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app2-service
+            port:
+              number: 80
