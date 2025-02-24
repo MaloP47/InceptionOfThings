@@ -41,6 +41,7 @@ if ! grep -q "alias k=" /home/vagrant/.profile; then
 fi
 
 source /home/vagrant/.profile
+sudo apk add lynx
 sleep 2
 
 kubectl apply -f /vagrant/confs/Deployments/app1-Deployment.yaml
