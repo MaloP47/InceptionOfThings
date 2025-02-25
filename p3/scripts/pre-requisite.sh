@@ -45,7 +45,7 @@ sudo apt-get install -y git
 
 # Install dependencies for Docker
 echo "Installing dependencies for Docker..."
-sudo apt-get install -y ca-certificates curl gnupg lsb-release
+sudo apt-get install -y ca-certificates curl gnupg lsb-release make
 
 # Add Docker's official GPG key
 echo "Adding Docker's official GPG key..."
