@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1             # API version for Argo CD Application CRD (don't change).
+kind: Application                            # This is an Argo CD Application kind.
+metadata:
+  name: example-app                          # (Required) Name of the Argo CD application (must be unique in ArgoCD namespace).
+  namespace: argocd                          # (Required) Namespace where Argo CD is installed (usually "argocd").
+  labels:                                   
+    app: example                             # (Optional) Labels for the application CR. Useful for grouping or selection.
+  annotations:
+    owner: "team-alpha"                      # (Optional) Annotations for the application CR (not used by ArgoCD itself, but for metadata).
+spec:
+  project: default                           # (Optional) Argo CD Project name; defaults to "default" if not specified.
+  # Source definition for application manifests (from Git repo or Helm chart)
+  source:
+    repoURL: "https://github.com/my-org/my-repo.git"   # (Required) Repository URL. Can be a git repo or a Helm repo&#8203;:contentReference[oaicite:0]{index=0}.
+    targetRevision: "main"                   # (Optional) Git revision (branch, tag, commit) or Helm chart version. Defaults to HEAD (tip of default branch)&#8203;:contentReference[oaicite:1]{index=1}.
+    path: "k8s-manifests"                    # (Required for Git) Path within the repo to the Kubernetes manifests. (Not used for direct Helm charts&#8203;:contentReference[oaicite:2]{index=2}.)
+    # chart: my-chart-name                   # (Required for Helm) Uncomment if using a Helm chart from a Helm repo. Specifies the chart name&#8203;:contentReference[oaicite:3]{index=3}.
+    # repoURL: "https://charts.example.com"  # (Required for Helm) Helm repository URL (use instead of the Git repoURL above for chart source).
+    # targetRevision: "1.2.3"                # (Optional for Helm) Helm chart version (omit or set to empty for latest).
+    # helm:
+    #   valueFiles:
+    #     - values-prod.yaml                 # (Optional) Helm values file(s) to use for customizing the chart.
+    #   values: |                            # (Optional) Inline values (YAML block) to override in the Helm chart.
+    #     replicaCount: 3                    # Example of setting a Helm value (here, scaling replicas to 3).
+  # Destination cluster and namespace for deployment
+  destination:
+    server: "https://kubernetes.default.svc" # (Required) Kubernetes API server address of the target cluster. 
+                                            # Use "https://kubernetes.default.svc" for the in-cluster Kubernetes (default)&#8203;:contentReference[oaicite:4]{index=4}.
+    namespace: "my-app-namespace"            # (Required) Target namespace in the destination cluster to deploy into.
+    # name: "in-cluster"                    # (Optional) Instead of server, you can specify the cluster by name if it's configured in ArgoCD (e.g., "in-cluster").
+  # Synchronization (sync) policy for automated or manual sync behavior
+  syncPolicy:
+    automated:                               # (Optional) Auto-sync settings. If omitted, sync must be triggered manually.
+      prune: true                            # (Optional) If true, ArgoCD will delete (“prune”) resources that are not tracked in git (default false)&#8203;:contentReference[oaicite:5]{index=5}.
+      selfHeal: true                         # (Optional) If true, ArgoCD will reapply out-of-sync changes automatically (self-heal drift, default false)&#8203;:contentReference[oaicite:6]{index=6}.
+      allowEmpty: false                      # (Optional) If true, allows deleting all resources if the git source is empty (default false)&#8203;:contentReference[oaicite:7]{index=7}.
+    syncOptions:
+      - CreateNamespace=true                 # (Optional) Automatically create the target namespace if it doesn't exist&#8203;:contentReference[oaicite:8]{index=8}.
+      - PruneLast=true                       # (Optional) Prune resources only after all sync waves complete (helps avoid race conditions).
+      # - Validate=false                    # (Optional) Skip resource validation during apply (equivalent to kubectl --validate=false).
+      # Additional syncOptions can be added as needed (e.g., to modify validation, pruning behavior, etc.).
+    # (Optional) You can also configure retry behavior for automated syncs:
+    # retry:
+    #   limit: 5                             # Retry failed syncs up to 5 times (default is 5 when automated is enabled).
+    #   backoff:
+    #     duration: 5s                       # Base retry backoff duration (e.g., 5s, could also be "2m" or "1h").
+    #     factor: 2                          # Backoff factor (each retry waits longer: 5s, 10s, 20s, ...).
+    #     maxDuration: 3m                    # Maximum backoff duration between retries.

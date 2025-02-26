@@ -31,3 +31,5 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 # Récuperationde mdp. Login: admin
 argocd admin initial-password -n argocd
 
+# apply application.yaml
+kubectl apply -f application.yaml # In the github IOT-mpeulet repo
