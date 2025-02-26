@@ -36,33 +36,31 @@ if ! grep -q "alias k=" /home/vagrant/.profile; then
   echo "alias k='kubectl'" | sudo tee -a /home/vagrant/.profile
   echo "alias kgn='kubectl get nodes'" | sudo tee -a /home/vagrant/.profile
   echo "alias kgnw='kubectl get nodes -o wide'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kga='kubectl get all'" | sudo tee -a /home/vagrant/.profile
+  echo "alias kgia='kubectl get ingress -A'" | sudo tee -a /home/vagrant/.profile
 fi
 
-# Attendre la création du fichier token du noeud
-echo "En attente de la création du fichier de token du noeud K3s..."
-for i in {1..30}; do
-  if [ -f "$TOKEN_FILE" ]; then
-    echo "Fichier de token trouvé."
-    break
-  fi
-  echo "En attente... ($i/30)"
-  sleep 2
-done
+source /home/vagrant/.profile
+sudo apk add lynx
+sleep 2
 
-# Lire le token
-TOKEN=$(sudo cat "$TOKEN_FILE")
+kubectl apply -f /vagrant/confs/Deployments/app1-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app1-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app1-Ingress.yaml
+sleep 2
 
-# Attendre que le dossier partagé /vagrant soit disponible
-echo "En attente du dossier partagé /vagrant..."
-for i in {1..30}; do
-  if [ -d /vagrant ]; then
-    echo "Dossier /vagrant disponible."
-    break
-  fi
-  echo "En attente... ($i/30)"
-  sleep 1
-done
+kubectl apply -f /vagrant/confs/Deployments/app2-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app2-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app2-Ingress.yaml
+sleep 2
 
-# Stocker le token pour les noeuds workers
-echo "Stockage du token dans /vagrant/token..."
-echo "$TOKEN" > /vagrant/token
+kubectl apply -f /vagrant/confs/Deployments/app3-Deployment.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Services/app3-Service.yaml
+sleep 2
+kubectl apply -f /vagrant/confs/Ingress/app3-Ingress.yaml
+sleep 2
