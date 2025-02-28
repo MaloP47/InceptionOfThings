@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+# su -
+# usermod -aG sudo $(USER)
+# visudo
+# USER ALL=(ALL:ALL) ALL
+
 set -e
 
 echo "Updating and upgrading the system..."
