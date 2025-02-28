@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Updating and upgrading the system..."
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# Install Git
+echo "Installing Git..."
+sudo apt-get install -y git
+
+# Install dependencies for Docker
+echo "Installing dependencies for Docker..."
+sudo apt-get install -y ca-certificates curl gnupg lsb-release make
+
 # Set noninteractive frontend for apt-get
 export DEBIAN_FRONTEND=noninteractive
 
@@ -38,14 +50,6 @@ sudo chmod 700 /home/vagrant/.ssh
 # sudo curl -fsSL "https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub" -o /home/vagrant/.ssh/authorized_keys
 # sudo chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
 # sudo chmod 600 /home/vagrant/.ssh/authorized_keys
-
-# Install Git
-echo "Installing Git..."
-sudo apt-get install -y git
-
-# Install dependencies for Docker
-echo "Installing dependencies for Docker..."
-sudo apt-get install -y ca-certificates curl gnupg lsb-release make
 
 # Add Docker's official GPG key
 echo "Adding Docker's official GPG key..."
