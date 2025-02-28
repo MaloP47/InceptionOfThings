@@ -9,4 +9,4 @@ spec:
     service:
       name: app-three
       port:
-        number: 8081
+        number: 8080

@@ -15,4 +15,4 @@ spec:
           service:
             name: app-one
             port:
-              number: 8081
+              number: 8080
