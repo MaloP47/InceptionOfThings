@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+
+##### su -
+##### usermod -aG sudo user
+##### visudo
+##### malo ALL=(ALL:ALL) ALL
+##### reboot
+
 set -e
 
 # Set noninteractive frontend for apt-get
