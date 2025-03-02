@@ -4,13 +4,11 @@ metadata:
   name: argocd-ingress
   namespace: argocd
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # Force Traefik to use the HTTP (web) entrypoint.
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Ensure no SSL redirect is forced (remove any annotations like force-ssl-redirect)
 spec:
   ingressClassName: traefik
-  tls:
-  - hosts:
-    - localhost
-    secretName: argocd-tls
   rules:
   - host: localhost
     http:
