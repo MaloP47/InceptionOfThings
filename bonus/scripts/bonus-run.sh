@@ -45,3 +45,4 @@ ngrok http --url=fair-flounder-completely.ngrok-free.app 8080 --host-header=loca
 # règle pour pull les repo
 # changer l'url dans github sur p3
 # script install gitlab
+# récupérer l'url gitlab
