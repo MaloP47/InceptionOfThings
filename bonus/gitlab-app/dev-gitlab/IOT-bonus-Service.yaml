@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-wil-playground-gitlab
+  namespace: gitlab
+  labels:
+    app: svc-wil-playground-gitlab
+spec:
+  selector:
+    app: wil-playground-gitlab
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9999
+    targetPort: 8888
+  type: LoadBalancer

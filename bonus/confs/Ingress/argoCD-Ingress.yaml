@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ingress
+  namespace: argocd
+  annotations:
+    # Force Traefik to use the HTTP (web) entrypoint.
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Ensure no SSL redirect is forced (remove any annotations like force-ssl-redirect)
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 80

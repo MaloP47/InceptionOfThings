@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wil-playground-gitlab
+  labels:
+    app: wil-playground-gitlab
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: wil-playground-gitlab
+  template:
+    metadata:
+      labels:
+        app: wil-playground-gitlab
+      annotations:
+        description: "Deployment for wil-playground for bonus"
+    spec:
+      containers:
+      - name: wil-playground-gitlab
+        image: wil42/playground:v1
+        ports:
+        - containerPort: 9999
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
