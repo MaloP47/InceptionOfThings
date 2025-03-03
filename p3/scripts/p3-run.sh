@@ -22,7 +22,7 @@ kubectl wait --for=condition=ready --timeout=600s pod --all -n argocd
 
 argocd admin initial-password -n argocd > mdp
 
-ngrok http --url=fair-flounder-completely.ngrok-free.app 8080 --host-header=localhost > /dev/null &
+ngrok http --url=fair-flounder-completely.ngrok-free.app 7777 --host-header=localhost > /dev/null &
 
 # killall ngrok
 # k3d cluster delete p3
