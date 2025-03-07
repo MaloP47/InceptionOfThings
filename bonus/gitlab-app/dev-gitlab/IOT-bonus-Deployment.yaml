@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: wil-playground-gitlab
-        image: wil42/playground:v1
+        image: wil42/playground:v2
         ports:
         - containerPort: 9999
         resources:
