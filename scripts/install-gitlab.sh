@@ -22,8 +22,8 @@ echo "✅ Adresse IP détectée : $IP_ADDRESS"
 echo "📌 Installation de GitLab avec EXTERNAL_URL=http://$IP_ADDRESS:$GITLAB_PORT"
 
 # Installation de GitLab avec EXTERNAL_URL configuré
-sudo GITLAB_ROOT_EMAIL="mpeulet@student.42.fr" \
-GITLAB_ROOT_PASSWORD="Today123?" \
+sudo GITLAB_ROOT_EMAIL="<admin@mail.adress.com>" \
+GITLAB_ROOT_PASSWORD="<A random password>" \
 EXTERNAL_URL="http://$IP_ADDRESS:$GITLAB_PORT" \
 apt install -y gitlab-ce
 
